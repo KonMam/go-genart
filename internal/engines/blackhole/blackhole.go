@@ -7,14 +7,13 @@ import (
 
 	"genart/internal/core"
 	"genart/internal/noise"
-	"genart/internal/palette"
 )
 
 type Engine struct{}
 
 func (Engine) Name() string { return "blackhole" }
 
-func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64) (core.Scene, error) {
+func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64, colors []core.RGBA) (core.Scene, error) {
 	// Parameters
 	circleN := int(pick(params, "circles", 120))
 	density := pick(params, "density", 0.6)
@@ -22,7 +21,6 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 	lineWidth := pick(params, "lw", 0.0008)
 	segments := int(pick(params, "segments", 900))
 	hole := pick(params, "hole", 0.1)
-	paletteID := int(pick(params, "palette", 1))
 	freq := pick(params, "freq", 6.0)
 	amp := pick(params, "amp", 1.2)
 
@@ -31,8 +29,6 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 
 	// Noise field
 	field := noise.NewSimplexField3D(rng.Int63(), 1.0)
-	colors := selectPalette(paletteID)
-
 	scene := core.Scene{}
 
 	kMax := 0.5 + rng.Float64()*0.5
@@ -46,7 +42,7 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 
 		points := make([]core.Vec2, 0, segments)
 
-		// NEW: random starting offset angle
+		// random starting offset angle
 		startTheta := rng.Float64() * 2 * math.Pi
 
 		for j := 0; j < segments; j++ {
@@ -68,9 +64,17 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 			points = append(points, core.Vec2{X: x, Y: y})
 		}
 
-		// NEW: alpha jitter to reduce banding
+		// Pick a color from the provided palette
+		var c core.RGBA
+		if len(colors) > 0 {
+			c = colors[rng.Intn(len(colors))]
+		} else {
+			c = core.RGBA{0, 0, 0, 1} // fallback black
+		}
+
+		// alpha jitter to reduce banding
 		alpha := 0.6 + rng.Float64()*0.25
-		scene.AddStroke(points, true, lineWidth, colors.Pick(rng), alpha)
+		scene.AddStroke(points, true, lineWidth, c, alpha)
 	}
 
 	return scene, nil
@@ -83,17 +87,4 @@ func pick(m map[string]float64, k string, def float64) float64 {
 		return v
 	}
 	return def
-}
-
-func selectPalette(id int) palette.Palette {
-	switch id {
-	case 1:
-		return palette.Warm
-	case 2:
-		return palette.Cool
-	case 3:
-		return palette.Rainbow
-	default:
-		return palette.Mono
-	}
 }

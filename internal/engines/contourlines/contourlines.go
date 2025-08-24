@@ -13,19 +13,19 @@ type Engine struct{}
 
 func (Engine) Name() string { return "contourlines" }
 
-func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64) (core.Scene, error) {
+func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64, colors []core.RGBA) (core.Scene, error) {
 	lines := int(pick(params, "lines", 3000))
 	steps := int(pick(params, "steps", 500))
 	scale := pick(params, "scale", 0.01)
 	step := pick(params, "step", 0.0008)
 	resetProb := pick(params, "resetProb", 0.005)
 	dotSize := pick(params, "dotSize", 0.0015)
-	paletteID := int(pick(params, "palette", 1)) // default warm
+	// paletteID := int(pick(params, "palette", 1)) // default warm
 
 	field := noise.NewSimplexField(rng.Int63(), scale)
 	scene := core.Scene{}
 
-	colors := selectPalette(paletteID)
+	// colors := selectPalette(paletteID)
 
 	for i := 0; i < lines; i++ {
 		x, y := rng.Float64(), rng.Float64()

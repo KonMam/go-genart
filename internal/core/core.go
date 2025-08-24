@@ -53,7 +53,7 @@ type Scene struct {
 // Generates a Scene from parameters and randomness.
 type Engine interface {
 	Name() string
-	Generate(ctx context.Context, rng *rand.Rand, params map[string]float64) (Scene, error)
+	Generate(ctx context.Context, rng *rand.Rand, params map[string]float64, colors []RGBA) (Scene, error)
 }
 
 // Controls how a Scene is mapped into pixels.
@@ -62,6 +62,7 @@ type RenderConfig struct {
 	Background    RGBA
 	Margin        float64 // fraction of min(width,height)
 	Supersample   int
+	Palette       []RGBA
 }
 
 // Paints a Scene to an image.

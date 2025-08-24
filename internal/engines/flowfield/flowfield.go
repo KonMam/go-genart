@@ -14,7 +14,7 @@ type Engine struct{}
 
 func (Engine) Name() string { return "flowfield" }
 
-func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64) (core.Scene, error) {
+func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64, colors []core.RGBA) (core.Scene, error) {
 	// --- Params with defaults ---
 	particles := int(pick(params, "particles", 1000))
 	steps := int(pick(params, "steps", 300))

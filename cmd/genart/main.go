@@ -17,6 +17,7 @@ import (
 	"genart/internal/engines/blackhole"
 	"genart/internal/engines/contourlines"
 	"genart/internal/engines/flowfield"
+	"genart/internal/palette"
 	"genart/internal/render"
 )
 
@@ -29,6 +30,9 @@ func main() {
 	seed := flag.Int64("seed", 42, "root random seed")
 	paramsCSV := flag.String("params", "", "engine params as k=v,k=v (numbers)")
 	bgStr := flag.String("bg", "1,1,1", "background color as r,g,b[,a] in [0,1]")
+	paletteType := flag.String("palette", "mono", "palette type (mono for now)")
+	paletteBase := flag.String("palette-base", "1,0,0", "base color r,g,b[,a] in [0,1]")
+	paletteN := flag.Int("palette-n", 5, "number of colors in palette")
 	flag.Parse()
 
 	// --- Registry ---
@@ -63,6 +67,21 @@ func main() {
 		exitErr("invalid -bg: " + err.Error())
 	}
 
+	// --- Parse palette base color ---
+	baseColor, err := parseColor(*paletteBase)
+	if err != nil {
+		exitErr("invalid -palette-base: " + err.Error())
+	}
+
+	// --- Generate palette ---
+	var colors []core.RGBA
+	switch *paletteType {
+	case "mono":
+		colors = palette.Monochrome(baseColor, *paletteN)
+	default:
+		exitErr(fmt.Sprintf("unknown palette type %q", *paletteType))
+	}
+
 	// --- Print root seed ---
 	fmt.Fprintf(os.Stderr, "Root seed: %d\n", *seed)
 
@@ -71,7 +90,7 @@ func main() {
 	rng := rand.New(rand.NewSource(subSeed))
 
 	// --- Engine Generate ---
-	scene, err := eng.Generate(context.Background(), rng, params)
+	scene, err := eng.Generate(context.Background(), rng, params, colors)
 	if err != nil {
 		exitErr("engine failed: " + err.Error())
 	}
@@ -83,6 +102,7 @@ func main() {
 		Background:  bg,
 		Margin:      0.05,
 		Supersample: 4,
+		Palette:     colors,
 	})
 	if err != nil {
 		exitErr("render failed: " + err.Error())
@@ -100,13 +120,14 @@ func main() {
 
 	// --- Print summary JSON ---
 	summary := map[string]any{
-		"engine": eng.Name(),
-		"width":  *width,
-		"height": *height,
-		"out":    *out,
-		"seed":   *seed,
-		"params": params,
-		"bg":     bg,
+		"engine":  eng.Name(),
+		"width":   *width,
+		"height":  *height,
+		"out":     *out,
+		"seed":    *seed,
+		"params":  params,
+		"bg":      bg,
+		"palette": colors,
 	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
