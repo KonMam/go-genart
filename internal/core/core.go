@@ -18,10 +18,6 @@ type Path struct {
 	Closed bool
 }
 
-// A color with float components in [0,1].
-type RGBA struct {
-	R, G, B, A float64
-}
 
 // A marker interface for things that can be drawn in a Scene.
 type Item interface{ isItem() }

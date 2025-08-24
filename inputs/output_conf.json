@@ -1,0 +1,36 @@
+{
+  "engine": "blackhole",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/blackhole_configs.png",
+  "seed": 42,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.25,
+      0.5,
+      0.25,
+      1
+    ],
+    "n": 8
+  },
+  "params": {
+    "amp": 1,
+    "circles": 1000,
+    "density": 0.2,
+    "freq": 3,
+    "gap": 0.012,
+    "hole": 0.08,
+    "lw": 0.0003
+  },
+  "render": {
+    "margin": 0.05,
+    "supersample": 4
+  }
+}

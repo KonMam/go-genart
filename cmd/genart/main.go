@@ -10,9 +10,8 @@ import (
 	"image/png"
 	"math/rand"
 	"os"
-	"strconv"
-	"strings"
 
+	"genart/internal/config"
 	"genart/internal/core"
 	"genart/internal/engines/blackhole"
 	"genart/internal/engines/contourlines"
@@ -23,17 +22,18 @@ import (
 
 func main() {
 	// --- Flags ---
-	engine := flag.String("engine", "square", "engine to use")
-	width := flag.Int("w", 1000, "output width in pixels")
-	height := flag.Int("h", 1000, "output height in pixels")
-	out := flag.String("out", "out.png", "output PNG path")
-	seed := flag.Int64("seed", 42, "root random seed")
-	paramsCSV := flag.String("params", "", "engine params as k=v,k=v (numbers)")
-	bgStr := flag.String("bg", "1,1,1", "background color as r,g,b[,a] in [0,1]")
-	paletteType := flag.String("palette", "mono", "palette type (mono for now)")
-	paletteBase := flag.String("palette-base", "1,0,0", "base color r,g,b[,a] in [0,1]")
-	paletteN := flag.Int("palette-n", 5, "number of colors in palette")
+	configFlag := flag.String("config", "", "JSON config string or path to .json file")
 	flag.Parse()
+
+	if *configFlag == "" {
+		exitErr("you must pass -config (JSON string or file)")
+	}
+
+	// --- Load config ---
+	cfg, err := config.Load(*configFlag)
+	if err != nil {
+		exitErr("failed to load config: " + err.Error())
+	}
 
 	// --- Registry ---
 	engines := map[string]core.Engine{
@@ -42,66 +42,48 @@ func main() {
 		"blackhole":    blackhole.Engine{},
 	}
 
-	eng, ok := engines[*engine]
+	eng, ok := engines[cfg.Engine]
 	if !ok {
-		exitErr(fmt.Sprintf("invalid engine %q", *engine))
+		exitErr(fmt.Sprintf("invalid engine %q", cfg.Engine))
 	}
 
 	// --- Validate ---
-	if *width <= 0 || *height <= 0 {
+	if cfg.Width <= 0 || cfg.Height <= 0 {
 		exitErr("width and height must be > 0")
 	}
-	if *out == "" {
+	if cfg.Out == "" {
 		exitErr("output path cannot be empty")
 	}
 
-	// --- Parse params ---
-	params, err := parseParams(*paramsCSV)
-	if err != nil {
-		exitErr(err.Error())
-	}
-
-	// --- Parse background ---
-	bg, err := parseColor(*bgStr)
-	if err != nil {
-		exitErr("invalid -bg: " + err.Error())
-	}
-
-	// --- Parse palette base color ---
-	baseColor, err := parseColor(*paletteBase)
-	if err != nil {
-		exitErr("invalid -palette-base: " + err.Error())
-	}
-
-	// --- Generate palette ---
+	// --- Build palette ---
 	var colors []core.RGBA
-	switch *paletteType {
+	switch cfg.Palette.Type {
 	case "mono":
-		colors = palette.Monochrome(baseColor, *paletteN)
+		colors = palette.Monochrome(cfg.Palette.Base, cfg.Palette.N)
 	default:
-		exitErr(fmt.Sprintf("unknown palette type %q", *paletteType))
+		exitErr(fmt.Sprintf("unknown palette type %q", cfg.Palette.Type))
 	}
 
 	// --- Print root seed ---
-	fmt.Fprintf(os.Stderr, "Root seed: %d\n", *seed)
+	fmt.Fprintf(os.Stderr, "Root seed: %d\n", cfg.Seed)
 
 	// --- Derive per-engine seed ---
-	subSeed := deriveSeed(*seed, eng.Name())
+	subSeed := deriveSeed(cfg.Seed, eng.Name())
 	rng := rand.New(rand.NewSource(subSeed))
 
 	// --- Engine Generate ---
-	scene, err := eng.Generate(context.Background(), rng, params, colors)
+	scene, err := eng.Generate(context.Background(), rng, cfg.Params, colors)
 	if err != nil {
 		exitErr("engine failed: " + err.Error())
 	}
 
 	// --- Render ---
 	img, err := (render.GG{}).Render(scene, core.RenderConfig{
-		Width:       *width,
-		Height:      *height,
-		Background:  bg,
-		Margin:      0.05,
-		Supersample: 4,
+		Width:       cfg.Width,
+		Height:      cfg.Height,
+		Background:  cfg.Background,
+		Margin:      cfg.Render.Margin,
+		Supersample: cfg.Render.Supersample,
 		Palette:     colors,
 	})
 	if err != nil {
@@ -109,7 +91,7 @@ func main() {
 	}
 
 	// --- Save PNG ---
-	f, err := os.Create(*out)
+	f, err := os.Create(cfg.Out)
 	if err != nil {
 		exitErr("failed to create file: " + err.Error())
 	}
@@ -118,63 +100,13 @@ func main() {
 		exitErr("failed to encode PNG: " + err.Error())
 	}
 
-	// --- Print summary JSON ---
-	summary := map[string]any{
-		"engine":  eng.Name(),
-		"width":   *width,
-		"height":  *height,
-		"out":     *out,
-		"seed":    *seed,
-		"params":  params,
-		"bg":      bg,
-		"palette": colors,
-	}
+	// --- Print final config JSON ---
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
-	_ = enc.Encode(summary)
+	_ = enc.Encode(cfg)
 }
 
 // --- Helpers ---
-
-func parseParams(csv string) (map[string]float64, error) {
-	m := make(map[string]float64)
-	if csv == "" {
-		return m, nil
-	}
-	for _, part := range strings.Split(csv, ",") {
-		kv := strings.SplitN(strings.TrimSpace(part), "=", 2)
-		if len(kv) != 2 {
-			return nil, fmt.Errorf("invalid param %q (expected k=v)", part)
-		}
-		key := strings.TrimSpace(kv[0])
-		valStr := strings.TrimSpace(kv[1])
-		val, err := strconv.ParseFloat(valStr, 64)
-		if err != nil {
-			return nil, fmt.Errorf("invalid value for param %q: %q (want number)", key, valStr)
-		}
-		m[key] = val
-	}
-	return m, nil
-}
-
-func parseColor(s string) (core.RGBA, error) {
-	parts := strings.Split(s, ",")
-	if len(parts) < 3 || len(parts) > 4 {
-		return core.RGBA{}, fmt.Errorf("expected r,g,b[,a]")
-	}
-	vals := make([]float64, len(parts))
-	for i, p := range parts {
-		v, err := strconv.ParseFloat(strings.TrimSpace(p), 64)
-		if err != nil {
-			return core.RGBA{}, fmt.Errorf("invalid number %q", p)
-		}
-		vals[i] = v
-	}
-	if len(vals) == 3 {
-		vals = append(vals, 1.0) // default alpha
-	}
-	return core.RGBA{R: vals[0], G: vals[1], B: vals[2], A: vals[3]}, nil
-}
 
 func deriveSeed(root int64, label string) int64 {
 	h := sha256.New()
