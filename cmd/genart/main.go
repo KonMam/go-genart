@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/binary"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -14,6 +16,7 @@ import (
 	"genart/internal/core"
 	"genart/internal/engines/circle"
 	"genart/internal/engines/square"
+	"genart/internal/engines/jittersquare"
 	"genart/internal/render"
 )
 
@@ -23,7 +26,7 @@ func main() {
 	width := flag.Int("w", 1000, "output width in pixels")
 	height := flag.Int("h", 1000, "output height in pixels")
 	out := flag.String("out", "out.png", "output PNG path")
-	seed := flag.Int64("seed", 42, "random seed")
+	seed := flag.Int64("seed", 42, "root random seed")
 	paramsCSV := flag.String("params", "", "engine params as k=v,k=v (numbers)")
 	flag.Parse()
 
@@ -31,6 +34,7 @@ func main() {
 	engines := map[string]core.Engine{
 		"square": square.Engine{},
 		"circle": circle.Engine{},
+		"jittersquare": jittersquare.Engine{},
 	}
 
 	eng, ok := engines[*engine]
@@ -52,8 +56,14 @@ func main() {
 		exitErr(err.Error())
 	}
 
+	// --- Print root seed ---
+	fmt.Fprintf(os.Stderr, "Root seed: %d\n", *seed)
+
+	// --- Derive per-engine seed ---
+	subSeed := deriveSeed(*seed, eng.Name())
+	rng := rand.New(rand.NewSource(subSeed))
+
 	// --- Engine Generate ---
-	rng := rand.New(rand.NewSource(*seed)) // currently ignored, but passed in
 	scene, err := eng.Generate(context.Background(), rng, params)
 	if err != nil {
 		exitErr("engine failed: " + err.Error())
@@ -63,7 +73,7 @@ func main() {
 	img, err := (render.GG{}).Render(scene, core.RenderConfig{
 		Width:      *width,
 		Height:     *height,
-		Background: core.RGBA{R: 1,G: 1,B: 1,A: 1},
+		Background: core.RGBA{1, 1, 1, 1},
 		Margin:     0.05,
 		Supersample: 1,
 	})
@@ -116,6 +126,16 @@ func parseParams(csv string) (map[string]float64, error) {
 		m[key] = val
 	}
 	return m, nil
+}
+
+func deriveSeed(root int64, label string) int64 {
+	h := sha256.New()
+	buf := make([]byte, 8)
+	binary.LittleEndian.PutUint64(buf, uint64(root))
+	h.Write(buf)
+	h.Write([]byte(label))
+	sum := h.Sum(nil)
+	return int64(binary.LittleEndian.Uint64(sum[:8]))
 }
 
 func exitErr(msg string) {
