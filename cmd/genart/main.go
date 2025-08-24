@@ -11,6 +11,7 @@ import (
 	"math/rand"
 	"os"
 
+	"genart/internal/anim"
 	"genart/internal/config"
 	"genart/internal/core"
 	"genart/internal/engines/blackhole"
@@ -47,14 +48,6 @@ func main() {
 		exitErr(fmt.Sprintf("invalid engine %q", cfg.Engine))
 	}
 
-	// --- Validate ---
-	if cfg.Width <= 0 || cfg.Height <= 0 {
-		exitErr("width and height must be > 0")
-	}
-	if cfg.Out == "" {
-		exitErr("output path cannot be empty")
-	}
-
 	// --- Build palette ---
 	var colors []core.RGBA
 	switch cfg.Palette.Type {
@@ -67,37 +60,41 @@ func main() {
 	// --- Print root seed ---
 	fmt.Fprintf(os.Stderr, "Root seed: %d\n", cfg.Seed)
 
-	// --- Derive per-engine seed ---
-	subSeed := deriveSeed(cfg.Seed, eng.Name())
-	rng := rand.New(rand.NewSource(subSeed))
+	// --- Run animation or static render ---
+	if cfg.Animation != nil {
+		if err := anim.Run(cfg, eng); err != nil {
+			exitErr("animation failed: " + err.Error())
+		}
+	} else {
+		// Static run
+		subSeed := deriveSeed(cfg.Seed, eng.Name())
+		rng := rand.New(rand.NewSource(subSeed))
 
-	// --- Engine Generate ---
-	scene, err := eng.Generate(context.Background(), rng, cfg.Params, colors)
-	if err != nil {
-		exitErr("engine failed: " + err.Error())
-	}
+		scene, err := eng.Generate(context.Background(), rng, cfg.Params, colors)
+		if err != nil {
+			exitErr("engine failed: " + err.Error())
+		}
 
-	// --- Render ---
-	img, err := (render.GG{}).Render(scene, core.RenderConfig{
-		Width:       cfg.Width,
-		Height:      cfg.Height,
-		Background:  cfg.Background,
-		Margin:      cfg.Render.Margin,
-		Supersample: cfg.Render.Supersample,
-		Palette:     colors,
-	})
-	if err != nil {
-		exitErr("render failed: " + err.Error())
-	}
+		img, err := (render.GG{}).Render(scene, core.RenderConfig{
+			Width:       cfg.Width,
+			Height:      cfg.Height,
+			Background:  cfg.Background,
+			Margin:      cfg.Render.Margin,
+			Supersample: cfg.Render.Supersample,
+			Palette:     colors,
+		})
+		if err != nil {
+			exitErr("render failed: " + err.Error())
+		}
 
-	// --- Save PNG ---
-	f, err := os.Create(cfg.Out)
-	if err != nil {
-		exitErr("failed to create file: " + err.Error())
-	}
-	defer f.Close()
-	if err := png.Encode(f, img); err != nil {
-		exitErr("failed to encode PNG: " + err.Error())
+		f, err := os.Create(cfg.Out)
+		if err != nil {
+			exitErr("failed to create file: " + err.Error())
+		}
+		defer f.Close()
+		if err := png.Encode(f, img); err != nil {
+			exitErr("failed to encode PNG: " + err.Error())
+		}
 	}
 
 	// --- Print final config JSON ---

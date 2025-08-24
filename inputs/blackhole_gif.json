@@ -1,0 +1,35 @@
+{
+  "engine": "blackhole",
+  "width": 600,
+  "height": 600,
+  "out": "./outputs/blackhole.gif",
+  "seed": 42,
+  "bg": [0,0,0,1],
+  "palette": {
+    "type": "mono",
+    "base": [0.2, 0.4, 0.7, 1],
+    "n": 6
+  },
+  "params": {
+    "circles": 400,
+    "density": 0.2,
+    "gap": 0.012,
+    "hole": 0.1,
+    "freq": 2,
+    "amp": 0.8
+  },
+  "render": {
+    "margin": 0.05,
+    "supersample": 2
+  },
+    "animation": {
+      "duration": 5,
+      "fps": 20,
+      "easing": "sin",
+      "vary": {
+        "amp": [0.9, 1.1],
+        "hole": [0.1, 0.05],
+        "palette.base": [[0.2, 0.4, 0.7, 1], [0.8, 0.3, 0.2, 1]]
+      }
+    }
+}

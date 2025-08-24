@@ -35,7 +35,8 @@ type RenderConfig struct {
 // AnimationConfig controls animation runs.
 // If nil, the run is static (PNG).
 type AnimationConfig struct {
-	Duration float64               `json:"duration"` // seconds
-	FPS      int                   `json:"fps"`
-	Vary     map[string][2]float64 `json:"vary,omitempty"` // param name -> [start,end]
+	Duration float64        `json:"duration"` // seconds
+	FPS      int            `json:"fps"`
+	Vary     map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
+	Easing   string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
 }
