@@ -1,29 +1,24 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"image/png"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
+
+	"genart/internal/core"
+	"genart/internal/engines/circle"
+	"genart/internal/engines/square"
+	"genart/internal/render"
 )
 
-type Config struct {
-	Engine string             `json:"engine"`
-	Width  int                `json:"width"`
-	Height int                `json:"height"`
-	Out    string             `json:"out"`
-	Seed   int64              `json:"seed"`
-	Params map[string]float64 `json:"params"`
-}
-
-var allowedEngines = map[string]bool{
-	"square": true,
-	"circle": true,
-}
-
 func main() {
+	// --- Flags ---
 	engine := flag.String("engine", "square", "engine to use (square|circle)")
 	width := flag.Int("w", 1000, "output width in pixels")
 	height := flag.Int("h", 1000, "output height in pixels")
@@ -32,48 +27,82 @@ func main() {
 	paramsCSV := flag.String("params", "", "engine params as k=v,k=v (numbers)")
 	flag.Parse()
 
-	if !allowedEngines[*engine] {
-		exitErr(fmt.Sprintf("invalid engine %q (allowed: square,circle)", *engine))
+	// --- Registry ---
+	engines := map[string]core.Engine{
+		"square": square.Engine{},
+		"circle": circle.Engine{},
 	}
-	if *width <= 0 {
-		exitErr("width must be > 0")
+
+	eng, ok := engines[*engine]
+	if !ok {
+		exitErr(fmt.Sprintf("invalid engine %q (allowed: square|circle)", *engine))
 	}
-	if *height <= 0 {
-		exitErr("height must be > 0")
+
+	// --- Validate ---
+	if *width <= 0 || *height <= 0 {
+		exitErr("width and height must be > 0")
 	}
 	if *out == "" {
 		exitErr("output path cannot be empty")
 	}
 
+	// --- Parse params ---
 	params, err := parseParams(*paramsCSV)
 	if err != nil {
 		exitErr(err.Error())
 	}
 
-	cfg := Config{
-		Engine: *engine,
-		Width:  *width,
-		Height: *height,
-		Out:    *out,
-		Seed:   *seed,
-		Params: params,
+	// --- Engine Generate ---
+	rng := rand.New(rand.NewSource(*seed)) // currently ignored, but passed in
+	scene, err := eng.Generate(context.Background(), rng, params)
+	if err != nil {
+		exitErr("engine failed: " + err.Error())
 	}
 
-	// Print config as JSON
+	// --- Render ---
+	img, err := (render.GG{}).Render(scene, core.RenderConfig{
+		Width:      *width,
+		Height:     *height,
+		Background: core.RGBA{R: 1,G: 1,B: 1,A: 1},
+		Margin:     0.05,
+		Supersample: 1,
+	})
+	if err != nil {
+		exitErr("render failed: " + err.Error())
+	}
+
+	// --- Save PNG ---
+	f, err := os.Create(*out)
+	if err != nil {
+		exitErr("failed to create file: " + err.Error())
+	}
+	defer f.Close()
+	if err := png.Encode(f, img); err != nil {
+		exitErr("failed to encode PNG: " + err.Error())
+	}
+
+	// --- Print summary JSON ---
+	summary := map[string]any{
+		"engine": eng.Name(),
+		"width":  *width,
+		"height": *height,
+		"out":    *out,
+		"seed":   *seed,
+		"params": params,
+	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
-	if err := enc.Encode(cfg); err != nil {
-		exitErr("failed to encode config: " + err.Error())
-	}
+	_ = enc.Encode(summary)
 }
 
-// parseParams parses "k=v,k=v" into map[string]float64
+// --- Helpers ---
+
 func parseParams(csv string) (map[string]float64, error) {
 	m := make(map[string]float64)
 	if csv == "" {
 		return m, nil
 	}
-	for part := range strings.SplitSeq(csv, ",") {
+	for _, part := range strings.Split(csv, ",") {
 		kv := strings.SplitN(strings.TrimSpace(part), "=", 2)
 		if len(kv) != 2 {
 			return nil, fmt.Errorf("invalid param %q (expected k=v)", part)
