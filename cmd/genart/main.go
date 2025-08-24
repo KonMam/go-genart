@@ -14,36 +14,33 @@ import (
 	"strings"
 
 	"genart/internal/core"
-	"genart/internal/engines/circle"
-	"genart/internal/engines/square"
-	"genart/internal/engines/jittersquare"
-	"genart/internal/engines/flowfield"
+	"genart/internal/engines/blackhole"
 	"genart/internal/engines/contourlines"
+	"genart/internal/engines/flowfield"
 	"genart/internal/render"
 )
 
 func main() {
 	// --- Flags ---
-	engine := flag.String("engine", "square", "engine to use (square|circle)")
+	engine := flag.String("engine", "square", "engine to use")
 	width := flag.Int("w", 1000, "output width in pixels")
 	height := flag.Int("h", 1000, "output height in pixels")
 	out := flag.String("out", "out.png", "output PNG path")
 	seed := flag.Int64("seed", 42, "root random seed")
 	paramsCSV := flag.String("params", "", "engine params as k=v,k=v (numbers)")
+	bgStr := flag.String("bg", "1,1,1", "background color as r,g,b[,a] in [0,1]")
 	flag.Parse()
 
 	// --- Registry ---
 	engines := map[string]core.Engine{
-		"square": square.Engine{},
-		"circle": circle.Engine{},
-		"jittersquare": jittersquare.Engine{},
-		"flowfield": flowfield.Engine{},
+		"flowfield":    flowfield.Engine{},
 		"contourlines": contourlines.Engine{},
+		"blackhole":    blackhole.Engine{},
 	}
 
 	eng, ok := engines[*engine]
 	if !ok {
-		exitErr(fmt.Sprintf("invalid engine %q (allowed: square|circle)", *engine))
+		exitErr(fmt.Sprintf("invalid engine %q", *engine))
 	}
 
 	// --- Validate ---
@@ -58,6 +55,12 @@ func main() {
 	params, err := parseParams(*paramsCSV)
 	if err != nil {
 		exitErr(err.Error())
+	}
+
+	// --- Parse background ---
+	bg, err := parseColor(*bgStr)
+	if err != nil {
+		exitErr("invalid -bg: " + err.Error())
 	}
 
 	// --- Print root seed ---
@@ -75,11 +78,11 @@ func main() {
 
 	// --- Render ---
 	img, err := (render.GG{}).Render(scene, core.RenderConfig{
-		Width:      *width,
-		Height:     *height,
-		Background: core.RGBA{1, 1, 1, 1},
-		Margin:     0.05,
-		Supersample: 1,
+		Width:       *width,
+		Height:      *height,
+		Background:  bg,
+		Margin:      0.05,
+		Supersample: 4,
 	})
 	if err != nil {
 		exitErr("render failed: " + err.Error())
@@ -103,6 +106,7 @@ func main() {
 		"out":    *out,
 		"seed":   *seed,
 		"params": params,
+		"bg":     bg,
 	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
@@ -130,6 +134,25 @@ func parseParams(csv string) (map[string]float64, error) {
 		m[key] = val
 	}
 	return m, nil
+}
+
+func parseColor(s string) (core.RGBA, error) {
+	parts := strings.Split(s, ",")
+	if len(parts) < 3 || len(parts) > 4 {
+		return core.RGBA{}, fmt.Errorf("expected r,g,b[,a]")
+	}
+	vals := make([]float64, len(parts))
+	for i, p := range parts {
+		v, err := strconv.ParseFloat(strings.TrimSpace(p), 64)
+		if err != nil {
+			return core.RGBA{}, fmt.Errorf("invalid number %q", p)
+		}
+		vals[i] = v
+	}
+	if len(vals) == 3 {
+		vals = append(vals, 1.0) // default alpha
+	}
+	return core.RGBA{R: vals[0], G: vals[1], B: vals[2], A: vals[3]}, nil
 }
 
 func deriveSeed(root int64, label string) int64 {
