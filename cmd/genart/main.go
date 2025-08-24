@@ -18,6 +18,7 @@ import (
 	"genart/internal/engines/square"
 	"genart/internal/engines/jittersquare"
 	"genart/internal/engines/flowfield"
+	"genart/internal/engines/contourlines"
 	"genart/internal/render"
 )
 
@@ -37,6 +38,7 @@ func main() {
 		"circle": circle.Engine{},
 		"jittersquare": jittersquare.Engine{},
 		"flowfield": flowfield.Engine{},
+		"contourlines": contourlines.Engine{},
 	}
 
 	eng, ok := engines[*engine]
