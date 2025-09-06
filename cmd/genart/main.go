@@ -17,6 +17,7 @@ import (
 	"genart/internal/engines/blackhole"
 	"genart/internal/engines/contourlines"
 	"genart/internal/engines/flowfield"
+	"genart/internal/engines/perlinpearls"
 	"genart/internal/palette"
 	"genart/internal/render"
 )
@@ -41,6 +42,7 @@ func main() {
 		"flowfield":    flowfield.Engine{},
 		"contourlines": contourlines.Engine{},
 		"blackhole":    blackhole.Engine{},
+		"perlinpearls": perlinpearls.Engine{},
 	}
 
 	eng, ok := engines[cfg.Engine]
@@ -53,6 +55,10 @@ func main() {
 	switch cfg.Palette.Type {
 	case "mono":
 		colors = palette.Monochrome(cfg.Palette.Base, cfg.Palette.N)
+	case "split-complementary":
+		colors = palette.SplitComplementary(cfg.Palette.Base, cfg.Palette.N)
+	case "analogous":
+		colors = palette.Analogous(cfg.Palette.Base, cfg.Palette.N)
 	default:
 		exitErr(fmt.Sprintf("unknown palette type %q", cfg.Palette.Type))
 	}

@@ -11,6 +11,11 @@ func RandomRangeFloat64(rng *rand.Rand, min, max float64) float64 {
 	return min + rng.Float64()*(max-min)
 }
 
+// RandomRangeFloat64 returns a random float64 in [min, max).
+func RandomRangeInt(rng *rand.Rand, min, max int) int {
+	return min + rng.Int()*(max-min)
+}
+
 // UniformPoint returns a random point in [0,1] × [0,1].
 func UniformPoint(rng *rand.Rand) geom.Vec2 {
 	return geom.Vec2{X: rng.Float64(), Y: rng.Float64()}

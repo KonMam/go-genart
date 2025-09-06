@@ -2,7 +2,7 @@
   "engine": "blackhole",
   "width": 1200,
   "height": 1200,
-  "out": "./outputs/blackhole_configs.png",
+  "out": "./outputs/blackhole_mono1.png",
   "seed": 42,
   "bg": [0, 0, 0, 1],
   "palette": {

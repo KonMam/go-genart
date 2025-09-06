@@ -38,3 +38,8 @@ func (s *Scene) AddStroke(points []Vec2, closed bool, width float64, color RGBA,
 func (s *Scene) AddFill(points []Vec2, color RGBA, alpha float64) {
 	s.Items = append(s.Items, NewFill(points, color, alpha))
 }
+
+// Remap maps a value from one range to another.
+func Remap(value, oldLow, oldHigh, newLow, newHigh float64) float64 {
+	return newLow + (value-oldLow)*(newHigh-newLow)/(oldHigh-oldLow)
+}

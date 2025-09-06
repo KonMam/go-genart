@@ -45,3 +45,8 @@ func (v Vec2) Normalize() Vec2 {
 	}
 	return Vec2{v.X / l, v.Y / l}
 }
+
+// Distance returns the distance between two points.
+func (v Vec2) Distance(u Vec2) float64 {
+	return math.Hypot(v.X-u.X, v.Y-u.Y)
+}
