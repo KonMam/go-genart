@@ -2,7 +2,7 @@
   "engine": "blackhole",
   "width": 600,
   "height": 600,
-  "out": "./outputs/blackhole.gif",
+  "out": "./outputs/blackhole_new.gif",
   "seed": 42,
   "bg": [0,0,0,1],
   "palette": {
@@ -24,12 +24,12 @@
   },
     "animation": {
       "duration": 5,
-      "fps": 120,
+      "fps": 10,
       "easing": "sin",
       "vary": {
         "amp": [0.9, 1],
         "hole": [0.1, 0.09],
-        "palette.base": [[0.2, 0.4, 0.7, 1], [0.8, 0.3, 0.2, 1]]
+        "palette.base": [[0.8, 0.1, 0.8, 1], [0.3, 0.6, 0.8, 1]]
       }
     }
 }
