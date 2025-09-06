@@ -55,6 +55,8 @@ func main() {
 	switch cfg.Palette.Type {
 	case "mono":
 		colors = palette.Monochrome(cfg.Palette.Base, cfg.Palette.N)
+	case "split-complementary":
+		colors = palette.SplitComplementary(cfg.Palette.Base, cfg.Palette.N)
 	default:
 		exitErr(fmt.Sprintf("unknown palette type %q", cfg.Palette.Type))
 	}

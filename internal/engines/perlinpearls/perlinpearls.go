@@ -92,10 +92,20 @@ func (Engine) Generate(ctx context.Context, rng *rand.Rand, params map[string]fl
 				ds[i][k].x += nx * ds[i][k].step
 				ds[i][k].y += ny * ds[i][k].step
 
-				// pick color from palette
+				// inside the stroke drawing loop
+				// pick color based on noise value at current position
 				var c core.RGBA
 				if len(colors) > 0 {
-					c = colors[rng.Intn(len(colors))]
+					nval := noiseField.At(ds[i][k].x*factor, ds[i][k].y*factor) // -1..1
+					t := (nval + 1) / 2                                         // normalize 0..1
+					idx := int(t * float64(len(colors)-1))
+					if idx < 0 {
+						idx = 0
+					}
+					if idx >= len(colors) {
+						idx = len(colors) - 1
+					}
+					c = colors[idx]
 				} else {
 					c = core.RGBA{0, 0, 0, 1}
 				}
@@ -114,7 +124,7 @@ func (Engine) Generate(ctx context.Context, rng *rand.Rand, params map[string]fl
 			}
 		}
 
-		// --- Draw circle outline after inner strokes ---
+		// --- Circle outline (always black now) ---
 		segments := 200
 		outlinePoints := make([]core.Vec2, 0, segments+1)
 		for s := 0; s <= segments; s++ {
@@ -124,14 +134,7 @@ func (Engine) Generate(ctx context.Context, rng *rand.Rand, params map[string]fl
 			outlinePoints = append(outlinePoints, core.Vec2{X: x, Y: y})
 		}
 
-		// choose outline color (black if no palette provided)
-		var outlineColor core.RGBA
-		if len(colors) > 0 {
-			outlineColor = colors[0] // consistent outline color
-		} else {
-			outlineColor = core.RGBA{0, 0, 0, 1}
-		}
-
+		outlineColor := core.RGBA{R: 0, G: 0, B: 0, A: 1} // black outline
 		scene.AddStroke(outlinePoints, true, outlineWidth, outlineColor, 1.0)
 	}
 
