@@ -18,6 +18,7 @@ import (
 	"genart/internal/engines/contourlines"
 	"genart/internal/engines/flowfield"
 	"genart/internal/engines/perlinpearls"
+	"genart/internal/engines/swirl"
 	"genart/internal/palette"
 	"genart/internal/render"
 )
@@ -43,6 +44,7 @@ func main() {
 		"contourlines": contourlines.Engine{},
 		"blackhole":    blackhole.Engine{},
 		"perlinpearls": perlinpearls.Engine{},
+		"swirl":        swirl.Engine{},
 	}
 
 	eng, ok := engines[cfg.Engine]
