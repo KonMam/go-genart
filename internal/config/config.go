@@ -39,4 +39,5 @@ type AnimationConfig struct {
 	FPS      int            `json:"fps"`
 	Vary     map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
 	Easing   string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
+	LogFrames bool          `json:"log_frames,omitempty"`
 }

@@ -1,0 +1,24 @@
+{
+  "engine": "flow",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/flow.png",
+  "seed": 42,
+  "bg": [0, 0, 0, 1],
+  "palette": {
+    "type": "mono",
+    "base": [1, 1, 1, 1],
+    "n": 6
+  },
+  "params": {
+    "dots": 10000,
+    "lw": 0.0005,
+    "nIters": 200,
+    "factor": 3.0,
+    "step": 0.001
+  },
+  "render": {
+    "margin": 0.01,
+    "supersample": 2
+  }
+}

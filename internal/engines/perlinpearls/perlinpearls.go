@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/rand"
 
+	"genart/internal/colorize"
 	"genart/internal/core"
 	"genart/internal/geom"
 	"genart/internal/noise"
@@ -98,7 +99,7 @@ func (Engine) Generate(ctx context.Context, rng *rand.Rand, params map[string]fl
 
 				// inside the stroke drawing loop
 				// pick color based on noise value at current position
-				c := pickColor(colors, noiseField, ds[i][k].x, ds[i][k].y, factor)
+				c := colorize.PickColorFromNoise(colors, noiseField, ds[i][k].x, ds[i][k].y, factor)
 
 				// only draw if inside circle
 				if (geom.Vec2{X: ds[i][k].x, Y: ds[i][k].y}).Distance(geom.Vec2{X: cs[i].x, Y: cs[i].y}) < cs[i].radius &&
@@ -131,18 +132,3 @@ func (Engine) Generate(ctx context.Context, rng *rand.Rand, params map[string]fl
 	return scene, nil
 }
 
-func pickColor(colors []core.RGBA, noiseField noise.ScalarField2D, x, y, factor float64) core.RGBA {
-	if len(colors) == 0 {
-		return core.RGBA{R: 0, G: 0, B: 0, A: 1} // fallback to black
-	}
-	nval := noiseField.At(x*factor, y*factor) // -1..1
-	t := (nval + 1) / 2                        // normalize 0..1
-	idx := int(t * float64(len(colors)-1))
-	if idx < 0 {
-		idx = 0
-	}
-	if idx >= len(colors) {
-		idx = len(colors) - 1
-	}
-	return colors[idx]
-}

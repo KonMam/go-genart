@@ -1,0 +1,36 @@
+{
+  "engine": "swirl",
+  "width": 600,
+  "height": 600,
+  "out": "./outputs/swirl.gif",
+  "seed": 42,
+  "bg": [1, 1, 1, 1],
+  "palette": {
+    "type": "mono",
+    "base": [0.2, 0.4, 0.7, 1],
+    "n": 6
+  },
+  "params": {
+    "circles": 1000,
+    "dots": 200,
+    "lw": 0.0008,
+    "nIters": 1000,
+    "factor": 2.0,
+    "step": 0.002,
+    "maxRadius": 0.03
+  },
+  "render": {
+    "margin": 0.05,
+    "supersample": 2
+  },
+  "animation": {
+    "duration": 5,
+    "fps": 15,
+    "easing": "sin",
+    "vary": {
+      "maxRadius": [0.02, 0.04],
+      "factor": [1.5, 2.5]
+    },
+    "log_frames": true
+  }
+}

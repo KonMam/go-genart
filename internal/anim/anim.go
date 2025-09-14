@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"image"
 	stdpalette "image/color/palette"
@@ -12,12 +13,19 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"path/filepath"
 
 	"genart/internal/config"
 	"genart/internal/core"
 	"genart/internal/palette"
 	"genart/internal/render"
 )
+
+// FrameLog contains the parameters for a single frame of an animation.
+type FrameLog struct {
+	Frame  int                `json:"frame"`
+	Params map[string]float64 `json:"params"`
+}
 
 // Run executes an animated run based on cfg.Animation.
 // It generates all frames, interpolates params and palette, and writes a GIF.
@@ -34,6 +42,7 @@ func Run(cfg *config.Config, eng core.Engine) error {
 
 	images := make([]*image.Paletted, 0, frames)
 	delays := make([]int, 0, frames)
+	frameLogs := make([]FrameLog, 0, frames)
 
 	for frame := 0; frame < frames; frame++ {
 		tRaw := float64(frame) / float64(frames-1)
@@ -75,6 +84,13 @@ func Run(cfg *config.Config, eng core.Engine) error {
 			}
 		}
 
+		if anim.LogFrames {
+			frameLogs = append(frameLogs, FrameLog{
+				Frame:  frame,
+				Params: params,
+			})
+		}
+
 		// rebuild palette
 		var colors []core.RGBA
 		switch cfg.Palette.Type {
@@ -114,6 +130,12 @@ func Run(cfg *config.Config, eng core.Engine) error {
 		delays = append(delays, int(100/anim.FPS))
 	}
 
+	if anim.LogFrames {
+		if err := logFrames(cfg.Out, frameLogs); err != nil {
+			return fmt.Errorf("failed to log frames: %w", err)
+		}
+	}
+
 	// save GIF
 	f, err := os.Create(cfg.Out)
 	if err != nil {
@@ -125,6 +147,21 @@ func Run(cfg *config.Config, eng core.Engine) error {
 		Image: images,
 		Delay: delays,
 	})
+}
+
+func logFrames(out string, logs []FrameLog) error {
+	ext := filepath.Ext(out)
+	logFile := out[0:len(out)-len(ext)] + ".json"
+
+	f, err := os.Create(logFile)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	enc := json.NewEncoder(f)
+	enc.SetIndent("", "  ")
+	return enc.Encode(logs)
 }
 
 // --- helpers ---
