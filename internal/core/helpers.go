@@ -43,3 +43,11 @@ func (s *Scene) AddFill(points []Vec2, color RGBA, alpha float64) {
 func Remap(value, oldLow, oldHigh, newLow, newHigh float64) float64 {
 	return newLow + (value-oldLow)*(newHigh-newLow)/(oldHigh-oldLow)
 }
+
+// Pick is a helper to safely access a map of parameters.
+func Pick(m map[string]float64, k string, def float64) float64 {
+	if v, ok := m[k]; ok {
+		return v
+	}
+	return def
+}

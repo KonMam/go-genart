@@ -1,0 +1,26 @@
+{
+  "engine": "perlinpearls",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/perlinpearls5.png",
+  "seed": 198,
+  "bg": [1, 1, 1, 1],
+  "palette": {
+    "type": "analogous",
+    "base": [0.7, 0.2, 0.8, 1],
+    "n": 13
+  },
+  "params": {
+    "circles": 33,
+    "dots": 4000,
+    "lw": 0.0002,
+    "nIters": 4000,
+    "factor": 4,
+    "step": 0.0008,
+    "outlineWidth": 0.0007
+  },
+  "render": {
+    "margin": 0.05,
+    "supersample": 4
+  }
+}

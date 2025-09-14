@@ -2,7 +2,7 @@
   "engine": "perlinpearls",
   "width": 1200,
   "height": 1200,
-  "out": "./outputs/perlinpearls.png",
+  "out": "./outputs/perlinpearls.gif",
   "seed": 142,
   "bg": [1, 1, 1, 1],
   "palette": {
@@ -22,5 +22,15 @@
   "render": {
     "margin": 0.05,
     "supersample": 4
+  },
+  "animation": {
+    "duration": 5,
+    "fps": 10,
+    "easing": "sin",
+    "vary": {
+      "factor": [1.5, 2.5],
+      "lw": [0.0005, 0.0007],
+      "palette.base": [[0.3, 0.9, 0.2, 1], [0.9, 0.2, 0.3, 1]]
+    }
   }
 }

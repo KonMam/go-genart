@@ -15,14 +15,14 @@ func (Engine) Name() string { return "blackhole" }
 
 func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64, colors []core.RGBA) (core.Scene, error) {
 	// Parameters
-	circleN := int(pick(params, "circles", 120))
-	density := pick(params, "density", 0.6)
-	circleGap := pick(params, "gap", 0.02)
-	lineWidth := pick(params, "lw", 0.0008)
-	segments := int(pick(params, "segments", 900))
-	hole := pick(params, "hole", 0.1)
-	freq := pick(params, "freq", 6.0)
-	amp := pick(params, "amp", 1.2)
+	circleN := int(core.Pick(params, "circles", 120))
+	density := core.Pick(params, "density", 0.6)
+	circleGap := core.Pick(params, "gap", 0.02)
+	lineWidth := core.Pick(params, "lw", 0.0008)
+	segments := int(core.Pick(params, "segments", 900))
+	hole := core.Pick(params, "hole", 0.1)
+	freq := core.Pick(params, "freq", 6.0)
+	amp := core.Pick(params, "amp", 1.2)
 
 	centerX, centerY := 0.5, 0.5
 	radiusOuter := 0.45
@@ -80,11 +80,4 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 	return scene, nil
 }
 
-// --- helpers ---
 
-func pick(m map[string]float64, k string, def float64) float64 {
-	if v, ok := m[k]; ok {
-		return v
-	}
-	return def
-}
