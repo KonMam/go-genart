@@ -21,6 +21,7 @@ import (
 	"genart/internal/engines/swirl"
 	"genart/internal/engines/flow"
 	"genart/internal/engines/strata"
+	"genart/internal/engines/cells"
 	"genart/internal/palette"
 	"genart/internal/render"
 )
@@ -49,6 +50,7 @@ func main() {
 		"swirl":        swirl.Engine{},
 		"flow":         flow.Engine{},
 		"strata":       strata.Engine{},
+		"cells":        cells.Engine{},
 	}
 
 	eng, ok := engines[cfg.Engine]
