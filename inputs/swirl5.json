@@ -1,0 +1,26 @@
+{
+  "engine": "swirl",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/swirl5.png",
+  "seed": 142,
+  "bg": [0, 0, 0, 1],
+  "palette": {
+    "type": "mono",
+    "base": [0.7, 0.2, 0.3, 1],
+    "n": 8
+  },
+  "params": {
+    "circles": 1500,
+    "dots": 250,
+    "lw": 0.0006,
+    "nIters": 1000,
+    "factor": 2.5,
+    "step": 0.004,
+    "maxRadius": 0.03
+  },
+  "render": {
+    "margin": 0.05,
+    "supersample": 2
+  }
+}
