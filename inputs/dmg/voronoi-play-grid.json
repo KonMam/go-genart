@@ -1,0 +1,64 @@
+{
+  "genart": "../..",
+  "config": "voronoi-play.json",
+  "params": [
+    {
+      "name": "cols",
+      "label": "cells",
+      "values": [
+        4,
+        6,
+        9,
+        13
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "dome",
+      "label": "shading",
+      "values": [
+        0,
+        0.5,
+        1
+      ],
+      "labels": [
+        "flat",
+        "soft",
+        "pebble"
+      ]
+    },
+    {
+      "name": "lead",
+      "label": "lead",
+      "values": [
+        0.005,
+        0.012,
+        0.025
+      ],
+      "labels": [
+        "thin",
+        "mid",
+        "bold"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

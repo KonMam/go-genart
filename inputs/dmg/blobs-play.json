@@ -1,0 +1,48 @@
+{
+  "engine": "blobs",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/blobs-play",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.8,
+      0.6,
+      0.3,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "blobs": 7,
+    "radius": 0.055,
+    "spread": 0.33,
+    "phase": 0,
+    "glow": 1.6,
+    "rings": 0
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 2,
+    "fps": 12,
+    "vary": {
+      "phase": [
+        0,
+        0.12
+      ]
+    },
+    "easing": "sin",
+    "fixed_seed": true,
+    "loop": true
+  }
+}

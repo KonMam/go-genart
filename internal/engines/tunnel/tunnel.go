@@ -26,6 +26,7 @@ func (Engine) Generate(_ context.Context, _ *rand.Rand, params map[string]float6
 	bend := core.Pick(params, "bend", 0)        // direction of the lean, loops at 1
 	fog := core.Pick(params, "fog", 0.45)       // radius at which the far end fades to black
 	aspect := core.Pick(params, "aspect", 160.0/144)
+	pattern := int(math.Round(core.Pick(params, "pattern", 0))) // 0 checker, 1 rings, 2 spiral, 3 spokes
 
 	n := len(colors)
 	ba := 2 * math.Pi * bend
@@ -41,7 +42,18 @@ func (Engine) Generate(_ context.Context, _ *rand.Rand, params map[string]float6
 		r = math.Max(math.Hypot(dx, dy), 1e-6)
 		z := 0.6/r + depth*2 // two rings per checker
 		a := math.Atan2(dy, dx)/(2*math.Pi) + turn
-		check := (int(math.Floor(z))+int(math.Floor(a*sectors)))&1 == 0
+		var check bool
+		switch pattern {
+		case 1:
+			check = int(math.Floor(z))&1 == 0
+		case 2:
+			// Stripes wound round the tube: one turn per two rings.
+			check = int(math.Floor(a*sectors+z*sectors/4))&1 == 0
+		case 3:
+			check = int(math.Floor(a*sectors))&1 == 0
+		default:
+			check = (int(math.Floor(z))+int(math.Floor(a*sectors)))&1 == 0
+		}
 		light := math.Min(1, r/fog) // far = dark
 		t := light
 		if !check {

@@ -1,0 +1,64 @@
+{
+  "genart": "../..",
+  "config": "truchet-play.json",
+  "params": [
+    {
+      "name": "cells",
+      "label": "tiles",
+      "values": [
+        6,
+        8,
+        11,
+        15
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "weight",
+      "label": "weight",
+      "values": [
+        0.12,
+        0.22,
+        0.35
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "snap",
+      "label": "order",
+      "values": [
+        1.5,
+        4,
+        15
+      ],
+      "labels": [
+        "loose",
+        "mixed",
+        "tidy"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

@@ -21,7 +21,8 @@ func (Engine) Name() string { return "voronoi" }
 
 func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]float64, colors []core.RGBA) (core.Scene, error) {
 	cols := int(core.Pick(params, "cols", 6)) // seeds sit on a jittered cols x rows grid (counts)
-	rows := int(core.Pick(params, "rows", 5))
+	rows := int(core.Pick(params, "rows", 0)) // 0: as many as keep cells about square
+
 	phase := core.Pick(params, "phase", 0)      // position on the orbits, loops at 1
 	wander := core.Pick(params, "wander", 0.06) // orbit size
 	lead := core.Pick(params, "lead", 0.012)    // width of the lines between cells
@@ -31,7 +32,11 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 	// One seed per cell of a jittered grid (with a ring of cells outside
 	// the frame so edge cells close), so seeds never pile up into slivers.
 	// Each draws the same six numbers whatever the continuous parameters.
-	cols, rows = max(cols, 1), max(rows, 1)
+	cols = max(cols, 1)
+	if rows <= 0 {
+		rows = int(math.Round(float64(cols) / aspect))
+	}
+	rows = max(rows, 1)
 	cw, ch := aspect/float64(cols), 1/float64(rows)
 	a := 2 * math.Pi * phase
 	type pt struct{ x, y, tone float64 }

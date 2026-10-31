@@ -35,3 +35,25 @@ pairs per axis; loops: per frame, including the seam back to frame 0.
 
 Most steps move every edge on screen by about a pixel; fewer % needs
 narrower ranges (less change across the axis) or more steps.
+
+## Play mode (always moving, big knobs)
+
+`<name>-play.json` is a 24-frame, 2 s seamless loop (12 fps) that keeps
+playing while idle; `<name>-play-grid.json` has 4 knobs of 3-4 values each
+(108-144 combos) whose steps change the look a lot. Every combo is a loop;
+a knob step should land on the same frame index of the new combo's loop.
+`variant` is the random layout (added to the seed by the runner), the one
+knob meant to jump. Needs gbart grid to play loops per cell (not yet).
+
+Measured on DMG previews (% of pixels changed; frame = idle motion per
+frame, mean/max; steps = mean change per knob step):
+
+| engine  | frame      | knob steps                                              |
+|---------|------------|---------------------------------------------------------|
+| topo    | 7.3 / 16.2 | zoom 64, terraces 74, style 52, variant 67              |
+| ripples | 12.8 / 23.3| sources 58, rings 75, edge 43, variant 76               |
+| blobs   | 10.4 / 23.5| blobs 38, size 48, halo 30, variant 45                  |
+| truchet | 6.9 / 9.4  | tiles 61, weight 38, order 40, variant 51               |
+| planet  | 3.3 / 5.3  | sea 8, land 10, clouds 12, variant 16 (planet is ~half the screen) |
+| tunnel  | 17.1 / 32.4| pattern 46, segments 46, bend 49, fog 64                |
+| voronoi | 10.9 / 24.4| cells 57, shading 31, lead 26, variant 58               |

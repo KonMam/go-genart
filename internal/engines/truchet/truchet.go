@@ -27,12 +27,13 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 	travel := core.Pick(params, "travel", 0.6)  // how much one phase cycle turns the tiles
 	scale := core.Pick(params, "scale", 0.35)   // size of regions that turn together
 	snap := core.Pick(params, "snap", 4)        // 0 = tiles drift at any angle, higher = they rest at 0 or 90 degrees
-	lw := core.Pick(params, "lw", 0.022)        // arc width
+	weight := core.Pick(params, "weight", 0.22) // arc width as a fraction of a tile
 
 	field := noise.NewLoopField(rng.Int63(), scale, travel)
 	fg := colors[len(colors)-1]
 	dim := colors[len(colors)/2]
 	s := 1 / float64(cells)
+	lw := weight * s
 	scene := core.Scene{}
 	rowsN := int(math.Ceil(float64(cells) * 1.0))
 	for j := 0; j < rowsN; j++ {

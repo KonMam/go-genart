@@ -95,7 +95,7 @@ func main() {
 		}
 	} else {
 		// Static run
-		subSeed := deriveSeed(cfg.Seed, eng.Name())
+		subSeed := deriveSeed(cfg.Seed+config.VariantSeed(cfg.Params), eng.Name())
 		rng := rand.New(rand.NewSource(subSeed))
 
 		scene, err := eng.Generate(context.Background(), rng, cfg.Params, colors)

@@ -1,0 +1,66 @@
+{
+  "genart": "../..",
+  "config": "ripples-play.json",
+  "params": [
+    {
+      "name": "sources",
+      "label": "sources",
+      "values": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "freq",
+      "label": "rings",
+      "values": [
+        5,
+        8,
+        12,
+        17
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "sharp",
+      "label": "edge",
+      "values": [
+        0.3,
+        2,
+        8
+      ],
+      "labels": [
+        "soft",
+        "firm",
+        "crisp"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

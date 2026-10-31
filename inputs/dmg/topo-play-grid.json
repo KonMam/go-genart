@@ -1,0 +1,66 @@
+{
+  "genart": "../..",
+  "config": "topo-play.json",
+  "params": [
+    {
+      "name": "freq",
+      "label": "zoom",
+      "values": [
+        1.0,
+        1.6,
+        2.5,
+        3.8
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "levels",
+      "label": "terraces",
+      "values": [
+        6,
+        10,
+        16,
+        24
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "style",
+      "label": "style",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "lines",
+        "map",
+        "flat"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

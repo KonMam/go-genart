@@ -1,0 +1,64 @@
+{
+  "genart": "../..",
+  "config": "planet-play.json",
+  "params": [
+    {
+      "name": "sea",
+      "label": "sea",
+      "values": [
+        -0.5,
+        -0.15,
+        0.2,
+        0.55
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "freq",
+      "label": "land",
+      "values": [
+        1,
+        2,
+        4
+      ],
+      "labels": [
+        "big",
+        "mid",
+        "small"
+      ]
+    },
+    {
+      "name": "clouds",
+      "label": "clouds",
+      "values": [
+        0,
+        0.4,
+        0.8
+      ],
+      "labels": [
+        "none",
+        "some",
+        "lots"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

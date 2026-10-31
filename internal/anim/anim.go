@@ -172,7 +172,7 @@ func renderFrame(cfg *config.Config, eng core.Engine, frame, frames int) (image.
 	if anim.FixedSeed {
 		seedFrame = 0
 	}
-	rng := rand.New(rand.NewSource(deriveSeed(cfg.Seed, eng.Name(), seedFrame)))
+	rng := rand.New(rand.NewSource(deriveSeed(cfg.Seed+config.VariantSeed(params), eng.Name(), seedFrame)))
 
 	scene, err := eng.Generate(context.Background(), rng, params, colors)
 	if err != nil {

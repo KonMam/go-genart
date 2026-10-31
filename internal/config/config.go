@@ -19,6 +19,14 @@ type Config struct {
 	Animation *AnimationConfig `json:"animation,omitempty"`
 }
 
+// VariantSeed is what the "variant" param adds to the root seed: variants
+// are other random layouts of the same config, reachable through params
+// alone (a gbart grid spec can only set params). Variant 0 is the seed as
+// given.
+func VariantSeed(params map[string]float64) int64 {
+	return 1_000_003 * int64(params["variant"])
+}
+
 // PaletteConfig controls palette generation.
 type PaletteConfig struct {
 	Type string    `json:"type"` // e.g. "mono"

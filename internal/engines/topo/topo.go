@@ -29,10 +29,23 @@ func (Engine) Generate(_ context.Context, rng *rand.Rand, params map[string]floa
 	offset := core.Pick(params, "offset", 0)   // contour levels slide by one level per unit, loops
 	lw := core.Pick(params, "lw", 0.005)       // contour line width; 0 = none
 	fill := core.Pick(params, "fill", 1)       // 0 = lines on background, 1 = terraces filled by height
-	res := int(core.Pick(params, "res", 240))  // marching-squares grid cells across
+	// style, when given, sets fill and lines together: 0 contour lines on
+	// the background, 1 filled terraces with lines, 2 flat terraces.
+	switch style := core.Pick(params, "style", -1); {
+	case style < 0:
+	case style < 0.5:
+		fill = 0
+	case style < 1.5:
+		fill = 1
+	default:
+		fill, lw = 1, 0
+	}
+	res := int(core.Pick(params, "res", 240)) // marching-squares grid cells across
 
 	land := noise.NewLoopField(rng.Int63(), 1, travel)
 	height := func(x, y float64) float64 {
+		// Zoom about the centre, so freq grows or shrinks the same hills.
+		x, y = x-0.5, y-0.5
 		h := land.At(x*freq, y*freq, phase) + 0.4*land.At(x*freq*2.1+11, y*freq*2.1, phase)
 		// Simplex noise rarely leaves +-0.6; stretch it over 0..1.
 		return 0.5 + 0.5*math.Tanh(2*h)

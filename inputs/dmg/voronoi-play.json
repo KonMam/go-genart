@@ -1,0 +1,47 @@
+{
+  "engine": "voronoi",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/voronoi-play",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.55,
+      0.6,
+      0.75,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "seeds": 22,
+    "phase": 0,
+    "wander": 0.06,
+    "lead": 0.012,
+    "dome": 1
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 2,
+    "fps": 12,
+    "vary": {
+      "phase": [
+        0,
+        0.06
+      ]
+    },
+    "easing": "sin",
+    "fixed_seed": true,
+    "loop": true
+  }
+}

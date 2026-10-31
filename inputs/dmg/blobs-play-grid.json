@@ -1,0 +1,64 @@
+{
+  "genart": "../..",
+  "config": "blobs-play.json",
+  "params": [
+    {
+      "name": "blobs",
+      "label": "blobs",
+      "values": [
+        2,
+        4,
+        7,
+        12
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "radius",
+      "label": "size",
+      "values": [
+        0.035,
+        0.06,
+        0.09
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "rings",
+      "label": "halo",
+      "values": [
+        0,
+        3,
+        6
+      ],
+      "labels": [
+        "glow",
+        "bands",
+        "rings"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ]
+}
