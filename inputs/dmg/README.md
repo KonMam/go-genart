@@ -14,6 +14,11 @@ Per engine: `<name>.json` (still), `<name>-grid.json` (gbart grid spec,
     go run ./cmd/genart -config inputs/dmg/topo-loop.json   # -> outputs/dmg/topo-loop/frame-NNNN.png
     gbart capture -in outputs/dmg/topo-loop -mode tiles -fps 12 -out out/topo.gb
 
+HUD: every axis shows a plain name for what it does (`label`) and a
+12-step bar, `#-----------` to `############` (`labels`), so all seven read
+on one scale; step 1 is the start, right always means more. The table
+below uses the engine parameter names.
+
 Smoothness: mean (max) % of screen pixels whose shade changes per step,
 after gbart's conversion (shared levels, Bayer), over all 132 neighbouring
 pairs per axis; loops: per frame, including the seam back to frame 0.
