@@ -1,0 +1,48 @@
+{
+  "engine": "ripples",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/ripples-loop",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.6,
+      0.55,
+      0.5,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "sources": 3,
+    "freq": 9,
+    "phase": 0,
+    "drift": 0,
+    "orbit": 0.25,
+    "sharp": 3,
+    "falloff": 0.6
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 5.0,
+    "fps": 12,
+    "vary": {
+      "phase": [
+        0,
+        2
+      ]
+    },
+    "fixed_seed": true,
+    "loop": true
+  }
+}

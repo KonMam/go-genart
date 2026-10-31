@@ -1,0 +1,35 @@
+{
+  "engine": "truchet",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/truchet.png",
+  "seed": 7,
+  "bg": [
+    0.12,
+    0.1,
+    0.15,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.6,
+      0.55,
+      0.8,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "cells": 10,
+    "phase": 0,
+    "travel": 0.6,
+    "scale": 0.18,
+    "snap": 10,
+    "lw": 0.022
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  }
+}

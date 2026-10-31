@@ -1,0 +1,18 @@
+{
+  "genart": "../..",
+  "config": "voronoi.json",
+  "params": [
+    {
+      "name": "phase",
+      "from": 0,
+      "to": 0.06,
+      "steps": 12
+    },
+    {
+      "name": "wander",
+      "from": 0.03,
+      "to": 0.06,
+      "steps": 12
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "genart": "../..",
+  "config": "blobs.json",
+  "params": [
+    {
+      "name": "phase",
+      "from": 0,
+      "to": 0.04,
+      "steps": 12
+    },
+    {
+      "name": "radius",
+      "from": 0.045,
+      "to": 0.07,
+      "steps": 12
+    }
+  ]
+}

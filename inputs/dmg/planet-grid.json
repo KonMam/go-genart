@@ -1,0 +1,18 @@
+{
+  "genart": "../..",
+  "config": "planet.json",
+  "params": [
+    {
+      "name": "spin",
+      "from": 0,
+      "to": 0.4,
+      "steps": 12
+    },
+    {
+      "name": "light",
+      "from": 0,
+      "to": 0.4,
+      "steps": 12
+    }
+  ]
+}

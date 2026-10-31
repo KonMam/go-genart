@@ -1,0 +1,18 @@
+{
+  "genart": "../..",
+  "config": "tunnel.json",
+  "params": [
+    {
+      "name": "depth",
+      "from": 0,
+      "to": 0.4,
+      "steps": 12
+    },
+    {
+      "name": "turn",
+      "from": 0,
+      "to": 0.06,
+      "steps": 12
+    }
+  ]
+}

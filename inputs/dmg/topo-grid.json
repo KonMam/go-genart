@@ -1,0 +1,18 @@
+{
+  "genart": "../..",
+  "config": "topo.json",
+  "params": [
+    {
+      "name": "phase",
+      "from": 0,
+      "to": 0.04,
+      "steps": 12
+    },
+    {
+      "name": "offset",
+      "from": 0,
+      "to": 0.5,
+      "steps": 12
+    }
+  ]
+}

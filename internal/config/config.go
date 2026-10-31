@@ -35,9 +35,18 @@ type RenderConfig struct {
 // AnimationConfig controls animation runs.
 // If nil, the run is static (PNG).
 type AnimationConfig struct {
-	Duration float64        `json:"duration"` // seconds
-	FPS      int            `json:"fps"`
-	Vary     map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
-	Easing   string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
-	LogFrames bool          `json:"log_frames,omitempty"`
+	Duration  float64        `json:"duration"` // seconds
+	FPS       int            `json:"fps"`
+	Vary      map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
+	Easing    string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
+	LogFrames bool           `json:"log_frames,omitempty"`
+	// FixedSeed gives every frame the same random stream, so only the
+	// varied params change between frames. Without it each frame is
+	// reseeded and random choices jump from frame to frame.
+	FixedSeed bool `json:"fixed_seed,omitempty"`
+	// Loop spaces frames over [0, 1) instead of [0, 1], so the frame after
+	// the last is the first again: with a param that is periodic over its
+	// vary range (an engine's phase from 0 to 1), the animation loops
+	// without a repeated frame or a jump.
+	Loop bool `json:"loop,omitempty"`
 }
