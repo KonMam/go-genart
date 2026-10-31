@@ -7,8 +7,8 @@
       "label": "zoom",
       "values": [
         1.0,
-        1.8,
-        3.2
+        1.6,
+        2.4
       ],
       "labels": [
         "#--",
@@ -20,26 +20,26 @@
       "name": "levels",
       "label": "terraces",
       "values": [
-        6,
-        12,
-        22
+        5,
+        7,
+        10,
+        14
       ],
       "labels": [
-        "#--",
-        "##-",
-        "###"
+        "#---",
+        "##--",
+        "###-",
+        "####"
       ]
     },
     {
       "name": "style",
       "label": "style",
       "values": [
-        0,
         1,
         2
       ],
       "labels": [
-        "lines",
         "map",
         "flat"
       ]

@@ -8,11 +8,13 @@
       "values": [
         1,
         2,
+        3,
         4
       ],
       "labels": [
         "1",
         "2",
+        "3",
         "4"
       ]
     },
@@ -20,9 +22,9 @@
       "name": "freq",
       "label": "rings",
       "values": [
+        3,
         5,
-        9,
-        15
+        8
       ],
       "labels": [
         "#--",
@@ -34,12 +36,10 @@
       "name": "sharp",
       "label": "edge",
       "values": [
-        0.3,
-        2,
+        2.5,
         8
       ],
       "labels": [
-        "soft",
         "firm",
         "crisp"
       ]

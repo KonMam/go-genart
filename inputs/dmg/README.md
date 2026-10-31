@@ -39,7 +39,7 @@ narrower ranges (less change across the axis) or more steps.
 ## Animated grid cells (for gbart grid)
 
 Per visual: `inputs/dmg/<v>/grid.json` (`name`, `fps`, `params` with
-`values`, `label`, `labels`; 4 knobs x 3 values = 81 combos, tunnel 72) and
+`values`, `label`, `labels`; 72 combos each, so 7 visuals fit 504 of MBC5's 511 banks) and
 `inputs/dmg/<v>/cells/cell-NNNN/frame-KK.png`: 24 frames per cell, 320x288,
 NNNN = combo index with the last param varying fastest, frame 0 follows
 frame 23 seamlessly (checked on every cell). Cells are gitignored; render
@@ -47,7 +47,13 @@ them with
 
     inputs/dmg/cells.sh [visual...]   # cmd/gridcells over <v>-play.json + <v>/grid.json
 
-`variant` (labels A/B/C) is the random layout, added to the seed by the
+Tiles-mode quantization per cell (gbart build, % pixels changed, mean /
+worst): blobs 0.6/1.5, planet 0.4/0.9, tunnel 1.7/3.5, topo 2.2/9.4,
+ripples 4.9/11.7, voronoi 5.2/12.4, truchet 5.4/8.6. Detail density drives
+it (cells, rings, zoom x terraces), so those knobs are capped; line width
+barely matters.
+
+`variant` (labels A/B/C, planet A-D) is the random layout, added to the seed by the
 runner; every other knob keeps the layout and changes one aspect.
 
 ## Play mode (always moving, big knobs)

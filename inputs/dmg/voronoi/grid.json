@@ -6,13 +6,15 @@
       "name": "cols",
       "label": "cells",
       "values": [
+        3,
         4,
-        7,
-        12
+        6,
+        8
       ],
       "labels": [
         "few",
         "some",
+        "more",
         "many"
       ]
     },
@@ -21,12 +23,10 @@
       "label": "shading",
       "values": [
         0,
-        0.5,
         1
       ],
       "labels": [
         "flat",
-        "soft",
         "pebble"
       ]
     },
@@ -34,9 +34,9 @@
       "name": "lead",
       "label": "lead",
       "values": [
-        0.005,
-        0.012,
-        0.025
+        0.014,
+        0.022,
+        0.032
       ],
       "labels": [
         "thin",

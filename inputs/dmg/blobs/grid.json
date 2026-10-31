@@ -7,12 +7,14 @@
       "label": "blobs",
       "values": [
         2,
-        5,
+        4,
+        7,
         12
       ],
       "labels": [
         "2",
-        "5",
+        "4",
+        "7",
         "12"
       ]
     },
@@ -35,12 +37,10 @@
       "label": "halo",
       "values": [
         0,
-        3,
         6
       ],
       "labels": [
         "glow",
-        "bands",
         "rings"
       ]
     },

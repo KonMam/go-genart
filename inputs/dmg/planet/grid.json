@@ -34,12 +34,10 @@
       "name": "clouds",
       "label": "clouds",
       "values": [
-        0.15,
-        0.45,
-        0.8
+        0.3,
+        0.75
       ],
       "labels": [
-        "thin",
         "some",
         "lots"
       ]
@@ -50,12 +48,14 @@
       "values": [
         0,
         1,
-        2
+        2,
+        3
       ],
       "labels": [
         "A",
         "B",
-        "C"
+        "C",
+        "D"
       ]
     }
   ]
