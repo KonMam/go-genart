@@ -1,0 +1,11 @@
+{
+  "visuals": [
+    "topo",
+    "ripples",
+    "blobs",
+    "truchet",
+    "planet",
+    "tunnel",
+    "voronoi"
+  ]
+}
