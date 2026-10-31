@@ -36,11 +36,25 @@ pairs per axis; loops: per frame, including the seam back to frame 0.
 Most steps move every edge on screen by about a pixel; fewer % needs
 narrower ranges (less change across the axis) or more steps.
 
+## Animated grid cells (for gbart grid)
+
+Per visual: `inputs/dmg/<v>/grid.json` (`name`, `fps`, `params` with
+`values`, `label`, `labels`; 4 knobs x 3 values = 81 combos, tunnel 72) and
+`inputs/dmg/<v>/cells/cell-NNNN/frame-KK.png`: 24 frames per cell, 320x288,
+NNNN = combo index with the last param varying fastest, frame 0 follows
+frame 23 seamlessly (checked on every cell). Cells are gitignored; render
+them with
+
+    inputs/dmg/cells.sh [visual...]   # cmd/gridcells over <v>-play.json + <v>/grid.json
+
+`variant` (labels A/B/C) is the random layout, added to the seed by the
+runner; every other knob keeps the layout and changes one aspect.
+
 ## Play mode (always moving, big knobs)
 
 `<name>-play.json` is a 24-frame, 2 s seamless loop (12 fps) that keeps
-playing while idle; `<name>-play-grid.json` has 4 knobs of 3-4 values each
-(108-144 combos) whose steps change the look a lot. Every combo is a loop;
+playing while idle; `<name>/grid.json` has 4 knobs of 3 values each
+(81 combos; numbers below were measured on an earlier 3-4 value set) whose steps change the look a lot. Every combo is a loop;
 a knob step should land on the same frame index of the new combo's loop.
 `variant` is the random layout (added to the seed by the runner), the one
 knob meant to jump. Needs gbart grid to play loops per cell (not yet).

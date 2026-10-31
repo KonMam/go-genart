@@ -1,21 +1,19 @@
 {
-  "genart": "../..",
-  "config": "planet-play.json",
+  "name": "planet",
+  "fps": 12,
   "params": [
     {
       "name": "sea",
       "label": "sea",
       "values": [
         -0.5,
-        -0.15,
-        0.2,
-        0.55
+        0,
+        0.5
       ],
       "labels": [
-        "1",
-        "2",
-        "3",
-        "4"
+        "low",
+        "mid",
+        "high"
       ]
     },
     {
@@ -36,12 +34,12 @@
       "name": "clouds",
       "label": "clouds",
       "values": [
-        0,
-        0.4,
+        0.15,
+        0.45,
         0.8
       ],
       "labels": [
-        "none",
+        "thin",
         "some",
         "lots"
       ]
@@ -55,9 +53,9 @@
         2
       ],
       "labels": [
-        "1",
-        "2",
-        "3"
+        "A",
+        "B",
+        "C"
       ]
     }
   ]

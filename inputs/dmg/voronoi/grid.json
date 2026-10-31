@@ -1,21 +1,19 @@
 {
-  "genart": "../..",
-  "config": "voronoi-play.json",
+  "name": "voronoi",
+  "fps": 12,
   "params": [
     {
       "name": "cols",
       "label": "cells",
       "values": [
         4,
-        6,
-        9,
-        13
+        7,
+        12
       ],
       "labels": [
-        "1",
-        "2",
-        "3",
-        "4"
+        "few",
+        "some",
+        "many"
       ]
     },
     {
@@ -55,9 +53,9 @@
         2
       ],
       "labels": [
-        "1",
-        "2",
-        "3"
+        "A",
+        "B",
+        "C"
       ]
     }
   ]

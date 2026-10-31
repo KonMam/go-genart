@@ -47,10 +47,14 @@ func (Engine) Generate(_ context.Context, _ *rand.Rand, params map[string]float6
 		case 1:
 			check = int(math.Floor(z))&1 == 0
 		case 2:
-			// Stripes wound round the tube: one turn per two rings.
-			check = int(math.Floor(a*sectors+z*sectors/4))&1 == 0
+			// Stripes wound round the tube, one sector per ring, so a
+			// depth loop (two rings) shifts them by two sectors and the
+			// pattern matches again.
+			check = int(math.Floor(a*sectors+z))&1 == 0
 		case 3:
-			check = int(math.Floor(a*sectors))&1 == 0
+			// Spokes don't change along the tube, so they turn instead:
+			// two sectors per depth loop.
+			check = int(math.Floor(a*sectors+2*depth))&1 == 0
 		default:
 			check = (int(math.Floor(z))+int(math.Floor(a*sectors)))&1 == 0
 		}

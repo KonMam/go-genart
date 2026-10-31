@@ -65,7 +65,7 @@ func Run(cfg *config.Config, eng core.Engine) error {
 		go func() {
 			defer wg.Done()
 			for frame := range next {
-				img, params, err := renderFrame(cfg, eng, frame, frames)
+				img, params, err := RenderFrame(cfg, eng, frame, frames)
 				if err != nil {
 					errs[frame] = err
 					continue
@@ -117,9 +117,9 @@ func Run(cfg *config.Config, eng core.Engine) error {
 	})
 }
 
-// renderFrame interpolates the params and palette for one frame and renders
-// it.
-func renderFrame(cfg *config.Config, eng core.Engine, frame, frames int) (image.Image, map[string]float64, error) {
+// RenderFrame interpolates the params and palette for frame of frames and
+// renders it.
+func RenderFrame(cfg *config.Config, eng core.Engine, frame, frames int) (image.Image, map[string]float64, error) {
 	anim := cfg.Animation
 	tRaw := float64(frame) / float64(frames-1)
 	if anim.Loop {
