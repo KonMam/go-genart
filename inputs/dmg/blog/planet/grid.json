@@ -1,0 +1,58 @@
+{
+  "name": "planet",
+  "fps": 12,
+  "params": [
+    {
+      "name": "sea",
+      "label": "sea",
+      "values": [
+        -0.5,
+        0,
+        0.5
+      ],
+      "labels": [
+        "low",
+        "mid",
+        "high"
+      ]
+    },
+    {
+      "name": "freq",
+      "label": "land",
+      "values": [
+        1,
+        2,
+        4
+      ],
+      "labels": [
+        "big",
+        "mid",
+        "small"
+      ]
+    },
+    {
+      "name": "clouds",
+      "label": "clouds",
+      "values": [
+        0.3,
+        0.75
+      ],
+      "labels": [
+        "some",
+        "lots"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1
+      ],
+      "labels": [
+        "A",
+        "B"
+      ]
+    }
+  ]
+}

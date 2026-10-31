@@ -56,6 +56,32 @@ barely matters.
 `variant` (labels A/B/C, planet A-D) is the random layout, added to the seed by the
 runner; every other knob keeps the layout and changes one aspect.
 
+## Blog gallery set (36 combos)
+
+`blog/<v>/grid.json` is the set behind the gbart gallery ROM on mamonas.dev
+(personal-blog `content/posts/gbemu-player-demo/gallery.gb.gz`): each
+visual's 72-combo grid with one value dropped from two knobs, so 36 combos
+each and 253 banks for all seven (4 MiB, 1.32 MB gzip -9) instead of 505
+(8 MiB, 2.68 MB). The densest values go first, which also lowers the worst
+tiles-mode quantization (voronoi 13.0% -> 8.3%, topo 9.9% -> 6.2%). Bars are
+relabelled to the new length.
+
+| visual  | dropped              |
+|---------|----------------------|
+| topo    | terraces 14, variant C |
+| ripples | sources 4, variant C |
+| blobs   | blobs 4, variant C   |
+| truchet | tiles 12, variant C  |
+| planet  | variant C and D      |
+| tunnel  | pattern spokes, segments 10 |
+| voronoi | cells many, variant C |
+
+    SET=blog inputs/dmg/cells.sh       # -> inputs/dmg/blog/<v>/cells
+    gbart gallery -spec inputs/dmg/blog/gallery.json -out out/gallery.gb   # in gbemu
+
+The cells render from the same `<v>-play.json`, so they match the 72-combo
+cells they were cut from, and the ROM rebuilds byte for byte.
+
 ## Play mode (always moving, big knobs)
 
 `<name>-play.json` is a 24-frame, 2 s seamless loop (12 fps) that keeps

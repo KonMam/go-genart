@@ -1,0 +1,58 @@
+{
+  "name": "ripples",
+  "fps": 12,
+  "params": [
+    {
+      "name": "sources",
+      "label": "sources",
+      "values": [
+        1,
+        2,
+        3
+      ],
+      "labels": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "freq",
+      "label": "rings",
+      "values": [
+        3,
+        5,
+        8
+      ],
+      "labels": [
+        "#--",
+        "##-",
+        "###"
+      ]
+    },
+    {
+      "name": "sharp",
+      "label": "edge",
+      "values": [
+        2.5,
+        8
+      ],
+      "labels": [
+        "firm",
+        "crisp"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1
+      ],
+      "labels": [
+        "A",
+        "B"
+      ]
+    }
+  ]
+}

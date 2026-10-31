@@ -3,4 +3,5 @@ ROADMAP.md
 
 # rendered by inputs/dmg/cells.sh; large, re-renderable
 inputs/dmg/*/cells/
+inputs/dmg/blog/*/cells/
 bin/
