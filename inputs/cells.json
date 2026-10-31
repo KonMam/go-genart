@@ -1,0 +1,25 @@
+{
+  "engine": "cells",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/cells.png",
+  "seed": 42,
+  "bg": [0, 0, 0, 1],
+  "palette": {
+    "type": "mono",
+    "base": [1, 1, 1, 1],
+    "n": 6
+  },
+  "params": {
+    "grid_size": 10,
+    "dots_per_cell": 50,
+    "lw": 0.0005,
+    "nIters": 100,
+    "factor": 3.0,
+    "step": 0.002
+  },
+  "render": {
+    "margin": 0.01,
+    "supersample": 2
+  }
+}

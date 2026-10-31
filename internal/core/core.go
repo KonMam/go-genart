@@ -18,7 +18,6 @@ type Path struct {
 	Closed bool
 }
 
-
 // A marker interface for things that can be drawn in a Scene.
 type Item interface{ isItem() }
 
@@ -40,6 +39,16 @@ type Fill struct {
 }
 
 func (Fill) isItem() {}
+
+// Field paints every pixel inside the margin with Color(x, y), where x and
+// y are the pixel centre in logical coordinates. Fields are painted before
+// fills and strokes. Use it for pictures defined per point (height maps,
+// interference patterns), which polygons would only approximate.
+type Field struct {
+	Color func(x, y float64) RGBA
+}
+
+func (Field) isItem() {}
 
 // A collection of drawing instructions.
 type Scene struct {

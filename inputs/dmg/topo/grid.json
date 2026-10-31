@@ -1,0 +1,62 @@
+{
+  "name": "topo",
+  "fps": 12,
+  "params": [
+    {
+      "name": "freq",
+      "label": "zoom",
+      "values": [
+        1.0,
+        1.6,
+        2.4
+      ],
+      "labels": [
+        "#--",
+        "##-",
+        "###"
+      ]
+    },
+    {
+      "name": "levels",
+      "label": "terraces",
+      "values": [
+        5,
+        7,
+        10,
+        14
+      ],
+      "labels": [
+        "#---",
+        "##--",
+        "###-",
+        "####"
+      ]
+    },
+    {
+      "name": "style",
+      "label": "style",
+      "values": [
+        1,
+        2
+      ],
+      "labels": [
+        "map",
+        "flat"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ]
+}

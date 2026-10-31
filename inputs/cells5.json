@@ -1,0 +1,25 @@
+{
+  "engine": "cells",
+  "width": 1200,
+  "height": 1200,
+  "out": "./outputs/cells5.png",
+  "seed": 194,
+  "bg": [0, 0, 0, 1],
+  "palette": {
+    "type": "split-complementary",
+    "base": [0.1, 0.8, 0.4, 1],
+    "n": 13
+  },
+  "params": {
+    "grid_size": 25,
+    "dots_per_cell": 25,
+    "lw": 0.0005,
+    "nIters": 50,
+    "factor": 10,
+    "step": 0.004
+  },
+  "render": {
+    "margin": 0.01,
+    "supersample": 2
+  }
+}

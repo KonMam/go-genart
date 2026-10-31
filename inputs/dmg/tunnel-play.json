@@ -1,0 +1,48 @@
+{
+  "engine": "tunnel",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/tunnel-play",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.75,
+      0.5,
+      0.6,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "depth": 0,
+    "turn": 0,
+    "sectors": 12,
+    "sway": 0.12,
+    "bend": 0,
+    "fog": 0.45
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 2,
+    "fps": 12,
+    "vary": {
+      "depth": [
+        0,
+        1
+      ]
+    },
+    "easing": "linear",
+    "fixed_seed": true,
+    "loop": true
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "blobs",
+  "fps": 12,
+  "params": [
+    {
+      "name": "blobs",
+      "label": "blobs",
+      "values": [
+        2,
+        4,
+        7,
+        12
+      ],
+      "labels": [
+        "2",
+        "4",
+        "7",
+        "12"
+      ]
+    },
+    {
+      "name": "radius",
+      "label": "size",
+      "values": [
+        0.035,
+        0.06,
+        0.09
+      ],
+      "labels": [
+        "#--",
+        "##-",
+        "###"
+      ]
+    },
+    {
+      "name": "rings",
+      "label": "halo",
+      "values": [
+        0,
+        6
+      ],
+      "labels": [
+        "glow",
+        "rings"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ]
+}

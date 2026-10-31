@@ -1,0 +1,49 @@
+{
+  "engine": "planet",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/planet-play",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.35,
+      0.6,
+      0.5,
+      1
+    ],
+    "n": 5
+  },
+  "params": {
+    "spin": 0,
+    "light": 0.15,
+    "tilt": 0.35,
+    "sea": 0,
+    "freq": 1.8,
+    "radius": 0.4,
+    "travel": 0.8
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 2,
+    "fps": 12,
+    "vary": {
+      "weather": [
+        0,
+        1
+      ]
+    },
+    "easing": "linear",
+    "fixed_seed": true,
+    "loop": true
+  }
+}

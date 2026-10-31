@@ -1,0 +1,62 @@
+{
+  "name": "truchet",
+  "fps": 12,
+  "params": [
+    {
+      "name": "cells",
+      "label": "tiles",
+      "values": [
+        5,
+        7,
+        9,
+        12
+      ],
+      "labels": [
+        "5",
+        "7",
+        "9",
+        "12"
+      ]
+    },
+    {
+      "name": "weight",
+      "label": "weight",
+      "values": [
+        0.18,
+        0.26,
+        0.36
+      ],
+      "labels": [
+        "#--",
+        "##-",
+        "###"
+      ]
+    },
+    {
+      "name": "snap",
+      "label": "order",
+      "values": [
+        1.5,
+        15
+      ],
+      "labels": [
+        "loose",
+        "tidy"
+      ]
+    },
+    {
+      "name": "variant",
+      "label": "variant",
+      "values": [
+        0,
+        1,
+        2
+      ],
+      "labels": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ]
+}

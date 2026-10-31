@@ -19,6 +19,14 @@ type Config struct {
 	Animation *AnimationConfig `json:"animation,omitempty"`
 }
 
+// VariantSeed is what the "variant" param adds to the root seed: variants
+// are other random layouts of the same config, reachable through params
+// alone (a gbart grid spec can only set params). Variant 0 is the seed as
+// given.
+func VariantSeed(params map[string]float64) int64 {
+	return 1_000_003 * int64(params["variant"])
+}
+
 // PaletteConfig controls palette generation.
 type PaletteConfig struct {
 	Type string    `json:"type"` // e.g. "mono"
@@ -35,9 +43,18 @@ type RenderConfig struct {
 // AnimationConfig controls animation runs.
 // If nil, the run is static (PNG).
 type AnimationConfig struct {
-	Duration float64        `json:"duration"` // seconds
-	FPS      int            `json:"fps"`
-	Vary     map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
-	Easing   string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
-	LogFrames bool          `json:"log_frames,omitempty"`
+	Duration  float64        `json:"duration"` // seconds
+	FPS       int            `json:"fps"`
+	Vary      map[string]any `json:"vary,omitempty"`   // param name -> [start,end]
+	Easing    string         `json:"easing,omitempty"` // "linear" (default), "cosine", "sin"
+	LogFrames bool           `json:"log_frames,omitempty"`
+	// FixedSeed gives every frame the same random stream, so only the
+	// varied params change between frames. Without it each frame is
+	// reseeded and random choices jump from frame to frame.
+	FixedSeed bool `json:"fixed_seed,omitempty"`
+	// Loop spaces frames over [0, 1) instead of [0, 1], so the frame after
+	// the last is the first again: with a param that is periodic over its
+	// vary range (an engine's phase from 0 to 1), the animation loops
+	// without a repeated frame or a jump.
+	Loop bool `json:"loop,omitempty"`
 }

@@ -14,13 +14,7 @@ import (
 	"genart/internal/anim"
 	"genart/internal/config"
 	"genart/internal/core"
-	"genart/internal/engines/blackhole"
-	"genart/internal/engines/contourlines"
-	"genart/internal/engines/flowfield"
-	"genart/internal/engines/perlinpearls"
-	"genart/internal/engines/swirl"
-	"genart/internal/engines/flow"
-	"genart/internal/engines/strata"
+	"genart/internal/engines/registry"
 	"genart/internal/palette"
 	"genart/internal/render"
 )
@@ -41,15 +35,7 @@ func main() {
 	}
 
 	// --- Registry ---
-	engines := map[string]core.Engine{
-		"flowfield":    flowfield.Engine{},
-		"contourlines": contourlines.Engine{},
-		"blackhole":    blackhole.Engine{},
-		"perlinpearls": perlinpearls.Engine{},
-		"swirl":        swirl.Engine{},
-		"flow":         flow.Engine{},
-		"strata":       strata.Engine{},
-	}
+	engines := registry.Engines()
 
 	eng, ok := engines[cfg.Engine]
 	if !ok {
@@ -79,7 +65,7 @@ func main() {
 		}
 	} else {
 		// Static run
-		subSeed := deriveSeed(cfg.Seed, eng.Name())
+		subSeed := deriveSeed(cfg.Seed+config.VariantSeed(cfg.Params), eng.Name())
 		rng := rand.New(rand.NewSource(subSeed))
 
 		scene, err := eng.Generate(context.Background(), rng, cfg.Params, colors)

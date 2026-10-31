@@ -1,0 +1,62 @@
+{
+  "name": "tunnel",
+  "fps": 12,
+  "params": [
+    {
+      "name": "pattern",
+      "label": "pattern",
+      "values": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "labels": [
+        "check",
+        "rings",
+        "spiral",
+        "spokes"
+      ]
+    },
+    {
+      "name": "sectors",
+      "label": "segments",
+      "values": [
+        6,
+        10,
+        16
+      ],
+      "labels": [
+        "6",
+        "10",
+        "16"
+      ]
+    },
+    {
+      "name": "sway",
+      "label": "bend",
+      "values": [
+        0,
+        0.12,
+        0.25
+      ],
+      "labels": [
+        "#--",
+        "##-",
+        "###"
+      ]
+    },
+    {
+      "name": "fog",
+      "label": "fog",
+      "values": [
+        0.35,
+        0.8
+      ],
+      "labels": [
+        "near",
+        "far"
+      ]
+    }
+  ]
+}

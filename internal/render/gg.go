@@ -3,6 +3,7 @@ package render
 import (
 	"errors"
 	"image"
+	"math"
 
 	"genart/internal/core"
 
@@ -39,6 +40,28 @@ func (GG) Render(scene core.Scene, cfg core.RenderConfig) (image.Image, error) {
 
 	mapPt := func(v core.Vec2) (float64, float64) {
 		return x0 + v.X*sx, y0 + v.Y*sy
+	}
+
+	// Fields first, pixel by pixel
+	for _, it := range scene.Items {
+		f, ok := it.(core.Field)
+		if !ok {
+			continue
+		}
+		img := dc.Image().(*image.RGBA)
+		for py := int(y0); py < int(y1+0.5); py++ {
+			for px := int(x0); px < int(x1+0.5); px++ {
+				c := f.Color((float64(px)+0.5-x0)/sx, (float64(py)+0.5-y0)/sy)
+				o := img.PixOffset(px, py)
+				blend := func(dst uint8, v float64) uint8 {
+					v = math.Max(0, math.Min(1, v))
+					return uint8(math.Round(float64(dst)*(1-c.A) + 255*v*c.A))
+				}
+				img.Pix[o] = blend(img.Pix[o], c.R)
+				img.Pix[o+1] = blend(img.Pix[o+1], c.G)
+				img.Pix[o+2] = blend(img.Pix[o+2], c.B)
+			}
+		}
 	}
 
 	// Render items

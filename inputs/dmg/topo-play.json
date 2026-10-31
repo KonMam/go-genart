@@ -1,0 +1,50 @@
+{
+  "engine": "topo",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/topo-play",
+  "seed": 7,
+  "bg": [
+    0.1,
+    0.1,
+    0.1,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.55,
+      0.6,
+      0.35,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "levels": 9,
+    "freq": 1.6,
+    "phase": 0,
+    "travel": 0.015,
+    "offset": 0,
+    "lw": 0.005,
+    "fill": 1,
+    "style": 1
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  },
+  "animation": {
+    "duration": 2,
+    "fps": 12,
+    "vary": {
+      "phase": [
+        0,
+        1
+      ]
+    },
+    "easing": "linear",
+    "fixed_seed": true,
+    "loop": true
+  }
+}

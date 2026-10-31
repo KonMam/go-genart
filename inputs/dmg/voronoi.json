@@ -1,0 +1,34 @@
+{
+  "engine": "voronoi",
+  "width": 320,
+  "height": 288,
+  "out": "./outputs/dmg/voronoi.png",
+  "seed": 7,
+  "bg": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "palette": {
+    "type": "mono",
+    "base": [
+      0.55,
+      0.6,
+      0.75,
+      1
+    ],
+    "n": 4
+  },
+  "params": {
+    "seeds": 22,
+    "phase": 0,
+    "wander": 0.06,
+    "lead": 0.012,
+    "dome": 1
+  },
+  "render": {
+    "margin": 0,
+    "supersample": 1
+  }
+}
